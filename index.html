@@ -356,3 +356,40 @@ render();
 </script>
 </body>
 </html>
+
+
+<style>
+#passwordGate{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:20px;background:#f4f6f8;font-family:Inter,Segoe UI,Roboto,Arial,sans-serif}
+#passwordGate .gate-card{width:min(100%,420px);padding:32px;background:#fff;border:1px solid #e2e7ec;border-radius:16px;box-shadow:0 8px 24px rgba(22,34,48,.12)}
+#passwordGate h1{margin:0 0 8px;color:#17212b;font-size:24px}
+#passwordGate p{margin:0 0 20px;color:#66727f}
+#passwordGate input{box-sizing:border-box;width:100%;padding:12px;border:1px solid #cbd4dd;border-radius:9px;font:inherit}
+#passwordGate button{width:100%;margin-top:12px;padding:12px;border:0;border-radius:9px;background:#1769aa;color:white;font:inherit;font-weight:700;cursor:pointer}
+#passwordError{min-height:1.3em;margin-top:10px;color:#a33a3a;font-size:13px}
+body:not(.password-unlocked)>.wrap{display:none}
+body.password-unlocked #passwordGate{display:none}
+</style>
+<div id="passwordGate" role="dialog" aria-labelledby="passwordTitle">
+  <form class="gate-card" id="passwordForm">
+    <h1 id="passwordTitle">Password required</h1>
+    <p>Enter the password to open the student search.</p>
+    <label for="gatePassword">Password</label>
+    <input id="gatePassword" type="password" autocomplete="current-password" required autofocus>
+    <button type="submit">Continue</button>
+    <div id="passwordError" role="status" aria-live="polite"></div>
+  </form>
+</div>
+<script>
+document.getElementById('passwordForm').addEventListener('submit',function(event){
+  event.preventDefault();
+  const input=document.getElementById('gatePassword');
+  const error=document.getElementById('passwordError');
+  if(input.value==='2004'){
+    document.body.classList.add('password-unlocked');
+    error.textContent='';
+  }else{
+    error.textContent='Incorrect password. Please try again.';
+    input.select();
+  }
+});
+</script>
